@@ -1,6 +1,3 @@
-# Navigate to the build directory
-cd /home/mmanopoli/Udemy/RestAPIsWithFlaskAndPython/9__Deploying_Flask_apps_to_our_own_server__DOCKER
-
 # Setup the fullstack network with driver bridge
 docker network create fullstack -d bridge
 

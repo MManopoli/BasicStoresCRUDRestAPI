@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.item import ItemModel
+from models.store import StoreModel
 
 
 # "Resources" are the external representation of some thing
@@ -11,7 +12,7 @@ class Item(Resource):
         'price', type=float, required=True, help="This field cannot be left blank!"
     )
     parser.add_argument(
-        'store_id', type=int, required=True, help="Every item needs a store id."
+        'store_name', type=str, required=True, help="Every item needs a store (name)."
     )
 
     @jwt_required()
@@ -53,7 +54,7 @@ class Item(Resource):
             item = ItemModel(name, **request_data)
         else:
             item.price = request_data['price']
-            item.store_id = request_data['store_id']
+            item.id = StoreModel.find_by_name(request_data['store_name']).id
 
         item.save_to_db()
 

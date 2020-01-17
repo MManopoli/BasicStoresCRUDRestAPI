@@ -1,4 +1,5 @@
 from db import db
+from models.store import StoreModel
 
 
 # "Models" are the internal representation of some thing
@@ -12,11 +13,11 @@ class ItemModel(db.Model):
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     store = db.relationship("StoreModel")
 
-    def __init__(self, name, price, store_id):
+    def __init__(self, name, price, store_name):
         # self.id = _id  # No need to do this - SQLAlchemy does this for us because it's a primary_key in the database
         self.name = name
         self.price = price
-        self.store_id = store_id
+        self.store_id = StoreModel.find_by_name(store_name).id
 
     def json(self):
         return {'name': self.name, 'price': self.price}

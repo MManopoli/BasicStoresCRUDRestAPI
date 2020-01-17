@@ -1,0 +1,1 @@
+nosetests -v test_application.py

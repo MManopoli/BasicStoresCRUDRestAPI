@@ -1,0 +1,10 @@
+# Dockerfile-nginx
+FROM nginx:mainline
+# Update everything and install vim
+RUN apt-get update && apt-get upgrade -y && apt-get install -y vim
+# Remove the default configuration
+RUN rm /etc/nginx/conf.d/default.conf
+# We copy the configuration file
+COPY nginx.conf /etc/nginx/conf.d
+# Nginx will listen on this port
+EXPOSE 80

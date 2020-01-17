@@ -1,0 +1,19 @@
+FROM python:3.7-stretch
+
+LABEL maintainer="Matthew S. Manopoli <matthew.manopoli@gmail.com>"
+
+RUN apt-get update && apt-get upgrade -y && apt-get install -y vim uwsgi
+
+RUN mkdir /app && mkdir /app/logs
+
+COPY ./requirements.txt /app/requirements.txt
+
+RUN pip install --upgrade pip && pip install -r /app/requirements.txt
+
+COPY ./code /app/code
+
+EXPOSE 5000
+
+ENV DATABASE_URL="" PORT=""
+
+CMD ["uwsgi", "--ini", "/app/code/uwsgi.ini"]

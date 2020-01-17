@@ -1,0 +1,71 @@
+version: '3'
+services:
+  flask:
+    container_name: flask_app
+    build:
+      context: .
+      dockerfile: Dockerfile-flask
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PORT=${PORT}
+    restart: on-failure
+    depends_on:
+      - fullstack-postgres
+    networks:
+      - fullstack
+    env_file:
+      - .env
+
+  nginx:
+    container_name: nginx_proxy
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    image: nginx:latest
+    ports:
+      - '80:80' # expose 80 on host and sent to 80 in container
+    depends_on:
+      - flask
+    networks:
+      - fullstack
+
+  fullstack-postgres:
+    image: postgres:latest
+    container_name: full_db_postgres
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - DATABASE_HOST=${DB_HOST}
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+    networks:
+      - fullstack
+    env_file:
+      - .env
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    depends_on:
+      - fullstack-postgres
+    ports:
+      - "5050:5050"
+    networks:
+      - fullstack
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  database_postgres:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  fullstack:
+    external:
+      name: fullstack

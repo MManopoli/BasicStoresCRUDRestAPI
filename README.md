@@ -8,3 +8,13 @@ Augmented final code for Udemy Course: "REST APIs with Flask and Python":
 
 # Course Link
 https://www.udemy.com/course/rest-api-flask-and-python/
+
+## Required Python packages
+
+## Script to build and start all docker images
+
+    ./run-docker.sh
+
+## Script to execute tests (after starting all docker images)
+
+    ./run-tests.sh

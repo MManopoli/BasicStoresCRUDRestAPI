@@ -21,7 +21,9 @@ https://www.udemy.com/course/rest-api-flask-and-python/
     uWSGI
     psycopg2
 
-List can also be found in ./requirements.txt
+List can also be found here:
+
+    ./requirements.txt
 
 ## Script to build and start all docker images
 

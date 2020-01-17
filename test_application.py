@@ -2,9 +2,6 @@ import requests
 import json
 
 
-access_token = ""
-
-
 def test_registration():
     response = requests.post(
         url = "http://localhost/register",
@@ -87,6 +84,7 @@ def test_get_stores_with_no_items():
 
     assert response_dict["stores"][0]["name"] == "pianostore"
     assert response_dict["stores"][0]["items"] == []
+    assert response.status_code == 200
 
 def test_create_piano_at_pianostore():
     response = requests.post(
@@ -119,6 +117,7 @@ def test_get_stores_with_items():
     assert response_dict["stores"][0]["name"] == "pianostore"
     assert response_dict["stores"][0]["items"][0]["name"] == "piano"
     assert response_dict["stores"][0]["items"][0]["price"] == 15.99
+    assert response.status_code == 200
 
 def test_update_piano_price():
     response = requests.put(
@@ -133,6 +132,7 @@ def test_update_piano_price():
 
     assert response_dict["name"] == "piano"
     assert response_dict["price"] == 17.99
+    assert response.status_code == 200
 
 def test_get_stores_with_updated_items():
     response = requests.get(
@@ -144,3 +144,40 @@ def test_get_stores_with_updated_items():
     assert response_dict["stores"][0]["name"] == "pianostore"
     assert response_dict["stores"][0]["items"][0]["name"] == "piano"
     assert response_dict["stores"][0]["items"][0]["price"] == 17.99
+    assert response.status_code == 200
+
+def test_jwt_and_get_piano():
+    response = requests.post(
+        url = "http://localhost/login",
+        json = {
+            "username": "jose",
+            "password": "asdf"
+        }
+    )
+
+    response_dict = json.loads(response.text)
+    access_token = response_dict['access_token']
+
+    response = requests.get(
+        url = "http://localhost/item/piano",
+        headers = {
+            "Authorization": "JWT " + access_token
+        }
+    )
+
+    response_dict = json.loads(response.text)
+
+    assert response_dict["name"] == "piano"
+    assert response_dict["price"] == 17.99
+    assert response.status_code == 200
+
+def test_get_items():
+    response = requests.get(
+        url = "http://localhost/items"
+    )
+
+    response_dict = json.loads(response.text)
+
+    assert response_dict["items"][0]["name"] == "piano"
+    assert response_dict["items"][0]["price"] == 17.99
+    assert response.status_code == 200

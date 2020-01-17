@@ -106,14 +106,3 @@ venv.bak/
 # IntelliJ
 .idea/
 *.iml
-
-# Data Files and Folders
-postman/
-/Postman/
-section-4-venv/
-/section-4-venv/
-section-5-venv/
-/sectoion-5-venv/
-section-6-venv/
-/section-6-venv/
-data.db

@@ -25,7 +25,15 @@ List can also be found here:
 
     ./requirements.txt
 
-## Script to build and start all docker images
+## Instructions to build and start all docker images
+
+Setup the .env file
+
+    copy or rename the sample.env file to just ".env"
+    
+    populate the ## values:
+    
+    
 
     ./run-docker.sh
 

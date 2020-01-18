@@ -51,6 +51,14 @@ Then execute:
 
     ./run-docker.sh
 
+The API is accessible at:
+
+    http://localhost:80/
+
+PGADMIN is accessible at:
+
+    http://localhost:5050/
+
 ## Script to execute tests (after starting all docker images)
 
     ./run-tests.sh

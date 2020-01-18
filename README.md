@@ -54,6 +54,10 @@ Then execute:
 The API is accessible at:
 
     http://localhost:80/
+    
+API access points documented in tests:
+
+    test_application.py
 
 PGADMIN is accessible at:
 
